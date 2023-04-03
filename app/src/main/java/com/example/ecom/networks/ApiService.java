@@ -22,5 +22,7 @@ public interface ApiService {
             @Query("offset") int offset
     );
 
+    @GET("{categoryID}")
+    Call<Product> getProductDetails(@Path("categoryID") String categoryID);
 
 }

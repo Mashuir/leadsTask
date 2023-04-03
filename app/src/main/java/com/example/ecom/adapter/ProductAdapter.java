@@ -1,6 +1,7 @@
 package com.example.ecom.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.ecom.R;
 import com.example.ecom.models.Product;
+import com.example.ecom.view.fragments.ProductDetailsFragment;
+import com.example.ecom.view.fragments.ProductListFragment;
+
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -46,6 +53,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.priceTV.setText(String.valueOf(product.getPrice()));
         holder.ratingTV.setText(String.valueOf(product.getRating().getRate()));
         Glide.with(context).load(product.getImage()).into(holder.productImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            ProductDetailsFragment productDetailsFragment = new ProductDetailsFragment();
+            Bundle args = new Bundle();
+            args.putString("categoryID", String.valueOf(product.getId()));
+            productDetailsFragment.setArguments(args);
+
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, productDetailsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
     }
 
     @Override
