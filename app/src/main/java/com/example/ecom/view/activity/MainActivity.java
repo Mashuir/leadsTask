@@ -3,6 +3,8 @@ package com.example.ecom.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+
+import com.example.ecom.IOnBackPressed;
 import com.example.ecom.R;
 import com.example.ecom.databinding.ActivityMainBinding;
 import com.example.ecom.view.fragments.ProfileFragment;
@@ -47,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        finish();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 }

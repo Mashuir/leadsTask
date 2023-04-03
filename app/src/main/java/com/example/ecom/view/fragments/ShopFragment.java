@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.ecom.IOnBackPressed;
 import com.example.ecom.adapter.CategoryAdapter;
 import com.example.ecom.databinding.FragmentShopBinding;
 import com.example.ecom.networks.ApiClient;
@@ -17,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements IOnBackPressed {
 
     FragmentShopBinding binding;
     ApiService apiService;
@@ -57,5 +59,11 @@ public class ShopFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        requireActivity().finish();
+        return true;
     }
 }
