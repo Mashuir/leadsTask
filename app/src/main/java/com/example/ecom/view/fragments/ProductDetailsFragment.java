@@ -22,6 +22,7 @@ import com.example.ecom.databinding.FragmentProductListBinding;
 import com.example.ecom.models.Product;
 import com.example.ecom.networks.ApiClient;
 import com.example.ecom.networks.ApiService;
+import com.example.ecom.view.activity.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -81,20 +82,15 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
 
         binding.addToCartButton.setOnClickListener(v -> {
 
-            // Get the product ID from the clicked item and add it to SharedPreferences
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-
-// Retrieve the existing set of data
             Set<String> IDs = new HashSet<>(sharedPreferences.getStringSet("Items", new HashSet<>()));
-
-// Add new data to the set
             IDs.add(productID);
-
-// Save the updated set back to SharedPreferences
             editor.putStringSet("Items", IDs);
             editor.apply();
-
+            MainActivity mainActivity = (MainActivity) getActivity();
+            assert mainActivity != null;
+            mainActivity.SharedPreferencesDataUpdate();
             Snackbar.make(binding.productDetailsRootLayout,"Add to Cart", BaseTransientBottomBar.LENGTH_SHORT).show();
         });
     }

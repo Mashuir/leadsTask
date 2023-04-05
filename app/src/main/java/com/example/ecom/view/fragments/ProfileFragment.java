@@ -1,45 +1,32 @@
 package com.example.ecom.view.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
-
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.ecom.R;
-import com.example.ecom.databinding.FragmentProductDetailsBinding;
 import com.example.ecom.databinding.FragmentProfileBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 public class ProfileFragment extends Fragment {
 
@@ -64,17 +51,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
-
-        binding.chnageImageBtn.setOnClickListener(v -> {
-
-            for (String id : IDs) {
-                System.out.println(id);
-                Log.d("productdIDs",id);
-            }
-        });
 
         requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted) {
@@ -115,7 +91,6 @@ public class ProfileFragment extends Fragment {
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissionLauncher.launch(Manifest.permission.CAMERA);
                 } else {
-                    // Permission is already granted, capture a picture
                     capturePicture();
                 }
                 dialog.dismiss();

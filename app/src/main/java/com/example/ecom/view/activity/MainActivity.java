@@ -1,14 +1,17 @@
 package com.example.ecom.view.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ecom.IOnBackPressed;
 import com.example.ecom.R;
@@ -58,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        SharedPreferencesDataUpdate();
+    }
 
-        //SharedPreferences for update badge
+    public void SharedPreferencesDataUpdate(){
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
         cartItemsCount = IDs.size();
-
-
     }
 
     @Override
@@ -72,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
         menuItem = menu.findItem(R.id.cartIcon);
+
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+
+                if (item.getItemId() == R.id.cartIcon){
+                    Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
 
         if (cartItemsCount == 0) {
             menuItem.setActionView(null);
@@ -88,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.cartIcon) {
-
+            startActivity(new Intent(MainActivity.this,CartActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
