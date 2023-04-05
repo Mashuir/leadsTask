@@ -26,10 +26,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     Context context;
     List<Product> productList;
+    String categoryName;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context, List<Product> productList, String name) {
         this.context = context;
         this.productList = productList;
+        categoryName = name;
     }
 
     public void addItems(List<Product> newProductList) {
@@ -57,7 +59,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.itemView.setOnClickListener(v -> {
             ProductDetailsFragment productDetailsFragment = new ProductDetailsFragment();
             Bundle args = new Bundle();
-            args.putString("categoryID", String.valueOf(product.getId()));
+            args.putString("productID", String.valueOf(product.getId()));
+            args.putString("categoryName", categoryName);
             productDetailsFragment.setArguments(args);
 
             FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();

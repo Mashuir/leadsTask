@@ -3,6 +3,10 @@ package com.example.ecom.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.ecom.IOnBackPressed;
 import com.example.ecom.R;
@@ -16,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     Fragment selectedFragment = null;
 
+    //Badge feature
+    MenuItem menuItem;
+    TextView badgeCount;
+    int cartItemsCount = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new ShopFragment()).commit();
 
-        //bottomNavigationView.setItemIconTintList(null);
         binding.bottomNavigation.setSelectedItemId(R.id.navigation_shop);
         ((BottomNavigationView) findViewById(R.id.bottomNavigation)).setSelectedItemId(R.id.navigation_shop);
 
@@ -45,6 +53,33 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        menuItem = menu.findItem(R.id.cartIcon);
+
+        if (cartItemsCount == 0) {
+            menuItem.setActionView(null);
+        } else {
+
+            menuItem.setActionView(R.layout.cart_notification_badge_layout);
+            View view = menuItem.getActionView();
+            badgeCount = view.findViewById(R.id.badge_counter);
+            badgeCount.setText(String.valueOf(cartItemsCount));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.cartIcon) {
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

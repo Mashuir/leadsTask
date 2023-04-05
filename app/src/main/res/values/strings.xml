@@ -10,4 +10,9 @@
     <string name="price">Price</string>
     <string name="ratting">Rating</string>
     <string name="rating_count">Rating Count</string>
+    <string name="choose_from">Choose from</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cart">Cart</string>
+    <string name="icon">icon</string>
 </resources>

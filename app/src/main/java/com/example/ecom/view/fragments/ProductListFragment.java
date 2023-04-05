@@ -86,7 +86,7 @@ public class ProductListFragment extends Fragment implements IOnBackPressed {
 
                 if (productList != null) {
                     if (offset == 0) {
-                        ProductAdapter productAdapter = new ProductAdapter(requireContext(), productList);
+                        ProductAdapter productAdapter = new ProductAdapter(requireContext(), productList,categoryName);
                         binding.productListRecyclerView.setAdapter(productAdapter);
                     } else {
                         ProductAdapter productAdapter = (ProductAdapter) binding.productListRecyclerView.getAdapter();

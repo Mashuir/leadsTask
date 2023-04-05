@@ -1,5 +1,9 @@
 package com.example.ecom.view.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,12 @@ import com.example.ecom.models.Product;
 import com.example.ecom.networks.ApiClient;
 import com.example.ecom.networks.ApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +37,7 @@ import retrofit2.Response;
 public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
 
     FragmentProductDetailsBinding binding;
-    String categoryID;
+    String productID, categoryName;
 
     public ProductDetailsFragment() {}
 
@@ -44,10 +54,11 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
 
         Bundle args = getArguments();
         if (args != null) {
-            categoryID = args.getString("categoryID");
+            productID = args.getString("productID");
+            categoryName = args.getString("categoryName");
         }
 
-        ApiClient.getClient().getProductDetails(categoryID).enqueue(new Callback<Product>() {
+        ApiClient.getClient().getProductDetails(productID).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
 
@@ -67,13 +78,32 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
 
             }
         });
+
+        binding.addToCartButton.setOnClickListener(v -> {
+
+            // Get the product ID from the clicked item and add it to SharedPreferences
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Set<String> IDs = new HashSet<>(sharedPreferences.getStringSet("Items", new HashSet<>()));
+            IDs.add(productID);
+            editor.putStringSet("productID", IDs);
+            editor.apply();
+            Snackbar.make(binding.productDetailsRootLayout,"Add to Cart", BaseTransientBottomBar.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public boolean onBackPressed() {
-        //getActivity().finish();
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,
-                new ProductListFragment()).commit();
+
+        ProductListFragment fragment = new ProductListFragment();
+        Bundle args = new Bundle();
+        args.putString("categoryName", categoryName);
+        fragment.setArguments(args);
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameLayout, fragment)
+                .commit();
         BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottomNavigation);
         navigationView.getMenu().getItem(0).setChecked(true);
         return true;
