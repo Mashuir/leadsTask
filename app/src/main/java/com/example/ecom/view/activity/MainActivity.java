@@ -2,6 +2,8 @@ package com.example.ecom.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,9 @@ import com.example.ecom.view.fragments.ProfileFragment;
 import com.example.ecom.view.fragments.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
@@ -23,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     //Badge feature
     MenuItem menuItem;
     TextView badgeCount;
-    int cartItemsCount = 4;
+    int cartItemsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+
+        //SharedPreferences for update badge
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
+        cartItemsCount = IDs.size();
+
 
     }
 

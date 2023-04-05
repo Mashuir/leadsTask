@@ -84,10 +84,17 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
             // Get the product ID from the clicked item and add it to SharedPreferences
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
+
+// Retrieve the existing set of data
             Set<String> IDs = new HashSet<>(sharedPreferences.getStringSet("Items", new HashSet<>()));
+
+// Add new data to the set
             IDs.add(productID);
-            editor.putStringSet("productID", IDs);
+
+// Save the updated set back to SharedPreferences
+            editor.putStringSet("Items", IDs);
             editor.apply();
+
             Snackbar.make(binding.productDetailsRootLayout,"Add to Cart", BaseTransientBottomBar.LENGTH_SHORT).show();
         });
     }

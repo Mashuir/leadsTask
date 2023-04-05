@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,17 +66,13 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        Set<String> productIDs = sharedPreferences.getStringSet("Items", new HashSet<>());
+        Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
 
-        binding.chnageImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.chnageImageBtn.setOnClickListener(v -> {
 
-                for (String productId : productIDs) {
-                    // Do something with the product ID
-                    Toast.makeText(requireContext(), "" + productId, Toast.LENGTH_SHORT).show();
-                }
-
+            for (String id : IDs) {
+                System.out.println(id);
+                Log.d("productdIDs",id);
             }
         });
 
