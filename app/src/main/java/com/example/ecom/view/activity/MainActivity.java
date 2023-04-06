@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     //Badge feature
     MenuItem menuItem;
     TextView badgeCount;
+    ImageView cartIconImage;
     int cartItemsCount;
 
     @Override
@@ -76,17 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         menuItem = menu.findItem(R.id.cartIcon);
 
-        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem item) {
-
-                if (item.getItemId() == R.id.cartIcon){
-                    Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
-
         if (cartItemsCount == 0) {
             menuItem.setActionView(null);
         } else {
@@ -94,17 +86,20 @@ public class MainActivity extends AppCompatActivity {
             menuItem.setActionView(R.layout.cart_notification_badge_layout);
             View view = menuItem.getActionView();
             badgeCount = view.findViewById(R.id.badge_counter);
+            cartIconImage = view.findViewById(R.id.cartIconImage);
             badgeCount.setText(String.valueOf(cartItemsCount));
+            cartIconImage.setOnClickListener(v -> startActivity(new Intent(MainActivity.this,CartActivity.class)));
         }
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.cartIcon) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.cartIcon){
             startActivity(new Intent(MainActivity.this,CartActivity.class));
-            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
