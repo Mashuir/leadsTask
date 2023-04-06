@@ -25,13 +25,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     Context context;
     List<Product> productList;
-    private OnAddToCartListener onAddToCartListener;
 
-    public CartAdapter(Context context, List<Product> product, OnAddToCartListener listener) {
+    public CartAdapter(Context context, List<Product> product) {
         this.context = context;
         this.productList = product;
-        this.onAddToCartListener = listener;
     }
+
 
     @NonNull
     @Override
@@ -66,9 +65,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
             productList.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
-            if (onAddToCartListener != null) {
-                onAddToCartListener.onAddToCart();
-            }
         });
 
     }

@@ -25,6 +25,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/purple_500"
             android:paddingHorizontal="48dp"
+            android:layout_marginTop="16dp"
             android:text="@string/change_image"
             android:textAllCaps="false"
             android:textColor="@color/white" />

@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.ecom.OnAddToCartListener;
 import com.example.ecom.adapter.CartAdapter;
@@ -22,11 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartActivity extends AppCompatActivity implements OnAddToCartListener{
+public class CartActivity extends AppCompatActivity{
 
     ActivityCartBinding binding;
-    private OnAddToCartListener onAddToCartListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,7 @@ public class CartActivity extends AppCompatActivity implements OnAddToCartListen
                     productList.add(product);
 
                     if (productList.size() == calls.size()) {
-                        // all products have been loaded, create the adapter
-                        onAddToCartListener = getIntent().getParcelableExtra("onAddToCartListener");
-                        CartAdapter adapter = new CartAdapter(CartActivity.this, productList, onAddToCartListener);
+                        CartAdapter adapter = new CartAdapter(CartActivity.this, productList);
                         binding.cartRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         binding.cartRecyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -68,12 +66,5 @@ public class CartActivity extends AppCompatActivity implements OnAddToCartListen
             });
         }
 
-
-
-    }
-
-    @Override
-    public void onAddToCart() {
-        invalidateOptionsMenu();
     }
 }
