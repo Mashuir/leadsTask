@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        binding.profileCircleImage.setOnClickListener(v -> {
+        binding.changeImageBtn.setOnClickListener(v -> {
             Dialog dialog = new Dialog(requireContext());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.pick_image_bottomsheet_layout);

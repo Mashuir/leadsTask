@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecom.IOnBackPressed;
+import com.example.ecom.OnAddToCartListener;
 import com.example.ecom.R;
 import com.example.ecom.databinding.ActivityMainBinding;
+import com.example.ecom.view.fragments.ProductDetailsFragment;
 import com.example.ecom.view.fragments.ProfileFragment;
 import com.example.ecom.view.fragments.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnAddToCartListener {
 
     ActivityMainBinding binding;
     Fragment selectedFragment = null;
@@ -71,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
         cartItemsCount = IDs.size();
+    }
+
+    @Override
+    public void onAddToCart() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        Set<String> IDs = sharedPreferences.getStringSet("Items", new HashSet<>());
+        cartItemsCount = IDs.size();
+        invalidateOptionsMenu(); // refreshes the menu
     }
 
     @Override

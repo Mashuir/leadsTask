@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.ecom.IOnBackPressed;
+import com.example.ecom.OnAddToCartListener;
 import com.example.ecom.R;
 import com.example.ecom.databinding.FragmentProductDetailsBinding;
 import com.example.ecom.databinding.FragmentProductListBinding;
@@ -39,6 +40,7 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
 
     FragmentProductDetailsBinding binding;
     String productID, categoryName;
+    private OnAddToCartListener callback;
 
     public ProductDetailsFragment() {}
 
@@ -88,11 +90,20 @@ public class ProductDetailsFragment extends Fragment implements IOnBackPressed {
             IDs.add(productID);
             editor.putStringSet("Items", IDs);
             editor.apply();
-            MainActivity mainActivity = (MainActivity) getActivity();
-            assert mainActivity != null;
-            mainActivity.SharedPreferencesDataUpdate();
+            callback.onAddToCart();
             Snackbar.make(binding.productDetailsRootLayout,"Add to Cart", BaseTransientBottomBar.LENGTH_SHORT).show();
         });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAddToCartListener) {
+            callback = (OnAddToCartListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnAddToCartListener");
+        }
     }
 
     @Override

@@ -12,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.ecom.OnAddToCartListener;
 import com.example.ecom.R;
 import com.example.ecom.models.Product;
+import com.example.ecom.view.activity.MainActivity;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,10 +25,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     Context context;
     List<Product> productList;
+    private OnAddToCartListener onAddToCartListener;
 
-    public CartAdapter(Context context, List<Product> product) {
+    public CartAdapter(Context context, List<Product> product, OnAddToCartListener listener) {
         this.context = context;
         this.productList = product;
+        this.onAddToCartListener = listener;
     }
 
     @NonNull
@@ -62,6 +66,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
             productList.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
+            if (onAddToCartListener != null) {
+                onAddToCartListener.onAddToCart();
+            }
         });
 
     }

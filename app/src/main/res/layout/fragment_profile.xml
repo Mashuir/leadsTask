@@ -18,14 +18,16 @@
             tools:ignore="ImageContrastCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/chnageImageBtn"
+            android:id="@+id/changeImageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profileCircleImage"
             android:layout_centerHorizontal="true"
-            android:textAllCaps="false"
+            android:background="@color/purple_500"
             android:paddingHorizontal="48dp"
-            android:text="@string/change_image" />
+            android:text="@string/change_image"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

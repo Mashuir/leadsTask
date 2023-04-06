@@ -2,18 +2,14 @@ package com.example.ecom.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.ecom.R;
+import com.example.ecom.OnAddToCartListener;
 import com.example.ecom.adapter.CartAdapter;
 import com.example.ecom.databinding.ActivityCartBinding;
-import com.example.ecom.databinding.ActivityMainBinding;
 import com.example.ecom.models.Product;
 import com.example.ecom.networks.ApiClient;
 
@@ -26,9 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity implements OnAddToCartListener{
 
     ActivityCartBinding binding;
+    private OnAddToCartListener onAddToCartListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,8 @@ public class CartActivity extends AppCompatActivity {
 
                     if (productList.size() == calls.size()) {
                         // all products have been loaded, create the adapter
-                        CartAdapter adapter = new CartAdapter(CartActivity.this, productList);
+                        onAddToCartListener = getIntent().getParcelableExtra("onAddToCartListener");
+                        CartAdapter adapter = new CartAdapter(CartActivity.this, productList, onAddToCartListener);
                         binding.cartRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         binding.cartRecyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -71,5 +70,10 @@ public class CartActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onAddToCart() {
+        invalidateOptionsMenu();
     }
 }
